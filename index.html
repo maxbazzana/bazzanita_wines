@@ -747,7 +747,7 @@
         const addr = document.getElementById('customerAddress').value;
         const date = document.getElementById('deliveryDate').value;
         if (!name || !addr) { alert("Completa tus datos."); return; }
-        let msg = `*SALES ORDER*\n👤 Cliente: ${name}\n📍 Dir: ${addr}\n📅 Entrega: ${date}\n-------------------\n`;
+        let msg = `*SALES ORDER Nº*\n👤 Cliente: ${name}\n📍 Dirección: ${addr}\n📅 Entrega: ${date}\n-------------------\n Detalle del pedido:\n`;
         let total = 0;
         cart.forEach(i => { 
             total += (i.precio * i.qty); 
