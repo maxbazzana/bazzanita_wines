@@ -112,14 +112,14 @@
             gap: 10px; 
             flex-wrap: wrap; 
         }
-        input, select { 
+        input, select, textarea { 
             padding: 12px; 
             border: 1px solid #ddd; 
             border-radius: 8px; 
             flex-grow: 1; 
             font-size: 16px; 
         }
-        input:focus, select:focus { outline: none; border-color: var(--primary); }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); }
 
         /* GRID PRODUCTOS */
         .container { 
@@ -403,6 +403,9 @@
 
                 <label style="font-size:0.9em; font-weight:bold;">Día de entrega preferido:</label>
                 <select id="deliveryDate" style="width: 100%; margin-bottom: 10px;"></select>
+
+                <label style="font-size:0.9em; font-weight:bold;">Observaciones:</label>
+                <textarea id="customerObs" placeholder="Ej: Timbre no funciona, dejar en portería..." style="width: 93%; margin-bottom: 10px; font-family: inherit; resize: vertical;" rows="3"></textarea>
                 
                 <button id="btn-checkout" class="btn btn-checkout" onclick="sendOrder()" disabled>
                     ENVIAR PEDIDO
@@ -416,109 +419,109 @@
 
 <script>
     const products = [
-        { bodega: "ACHAVAL FERRER", nombre: "Malbec / Merlot / Cabernet Franc", precio: 16500, caja: 99000 },
-        { bodega: "ACHAVAL FERRER", nombre: "Quimera Blend", precio: 32600, caja: 195600 },
-        { bodega: "ALMA NEGRA", nombre: "Blanc de Blancs", precio: 24000, caja: 144000 },
-        { bodega: "ALMA NEGRA", nombre: "Tinto", precio: 26300, caja: 157800 },
-        { bodega: "ALMA NEGRA", nombre: "Brut Nature Rose", precio: 26500, caja: 159000 },
-        { bodega: "ALMA NEGRA", nombre: "Orange", precio: 41500, caja: 249000 },
-        { bodega: "ATAMISQUE", nombre: "Atamisque Assemblage", precio: 43500, caja: 261000 },
-        { bodega: "ATAMISQUE", nombre: "Atamisque Malbec", precio: 40000, caja: 240000 },
-        { bodega: "ATAMISQUE", nombre: "Catalpa (Cab. Franc / Pinot / Chardonnay / Malbec)", precio: 14600, caja: 87600 },
-        { bodega: "ATAMISQUE", nombre: "Philippe Caraguel Malbec Terroir Vistalba", precio: 15000, caja: 90000 },
-        { bodega: "ATAMISQUE", nombre: "Philippe Caraguel Extra Brut (Blanco / Rose)", precio: 11750, caja: 70500 },
-        { bodega: "BEMBERG", nombre: "La Linterna Blend Pionero Gualtallary", precio: 114000, caja: 684000 },
-        { bodega: "BEMBERG", nombre: "La Linterna Malbec (Gualtallary 5 / Pedernal 13 / Chañar Punco 73)", precio: 70000, caja: 420000 },
-        { bodega: "BEMBERG", nombre: "La Linterna (Pinot Noir / Chardonnay / Cab. Sauv.)", precio: 70000, caja: 420000 },
-        { bodega: "BRESSIA", nombre: "Monteagrelo (Malbec / Cab. Franc / Cab. Sauv.)", precio: 14300, caja: 85800 },
-        { bodega: "BRESSIA", nombre: "Lagrima Canela", precio: 25500, caja: 153000 },
-        { bodega: "BRESSIA", nombre: "Piel Negra", precio: 31000, caja: 186000 },
-        { bodega: "BRESSIA", nombre: "Profundo (OFERTA)", precio: 24600, caja: 147600 },
-        { bodega: "BRESSIA", nombre: "Conjuro", precio: 52500, caja: 315000 },
-        { bodega: "BRESSIA", nombre: "Ultima Hoja", precio: 99000, caja: 594000 },
-        { bodega: "BRESSIA", nombre: "Royal Brut Nature", precio: 22300, caja: 133800 },
-        { bodega: "CATENA ZAPATA", nombre: "Nicasia Red Blend (Malbec / Cab. Franc / Blanc)", precio: 6600, caja: 39600 },
-        { bodega: "CATENA ZAPATA", nombre: "Nicasia Grand Blend", precio: 9000, caja: 54000 },
-        { bodega: "CATENA ZAPATA", nombre: "Saint Felicien (Malbec / Cab. Franc / Cab. Sauv. / Chardonnay / Cab-Merlot)", precio: 8400, caja: 50400 },
-        { bodega: "CATENA ZAPATA", nombre: "Saint Felicien Rosé (Caja x4u)", precio: 24000, caja: 96000, uCaja: 4 },
-        { bodega: "CATENA ZAPATA", nombre: "DV Garnacha Apelacion-Lunlunta (Caja x4u)", precio: 19500, caja: 78000, uCaja: 4 },
-        { bodega: "CATENA ZAPATA", nombre: "DV Chardonnay-Chardonnay", precio: 16000, caja: 96000 },
-        { bodega: "CATENA ZAPATA", nombre: "DV Cabernet-Malbec (OFERTA)", precio: 10500, caja: 63000 },
-        { bodega: "CATENA ZAPATA", nombre: "DV (Malbec-Malbec / Cabernet-Cabernet)", precio: 15600, caja: 93600 },
-        { bodega: "CATENA ZAPATA", nombre: "DV Pinot-Pinot", precio: 12900, caja: 77400 },
-        { bodega: "CATENA ZAPATA", nombre: "DV L'Esploratore (Malbec Cafayate / Malbec Angulos) Caja x4u", precio: 19000, caja: 76000, uCaja: 4 },
-        { bodega: "CATENA ZAPATA", nombre: "DV Designated Vineyard Malbec Adriana (Caja x4u)", precio: 27000, caja: 108000, uCaja: 4 },
-        { bodega: "CATENA ZAPATA", nombre: "DV Designated Vineyard (Malbec Nicasia / Cab. Sauv. Nicasia) Caja x4u", precio: 25000, caja: 100000, uCaja: 4 },
-        { bodega: "CATENA ZAPATA", nombre: "DV Designated Vineyard (La Piramide Cab. Sauv./ Domingo Cab. Sauv.) Caja x4u", precio: 25000, caja: 100000, uCaja: 4 },
-        { bodega: "CATENA ZAPATA", nombre: "Angelica (Chardonnay / Merlot / Cab. Sauv. / Cab. Franc) Caja x4u", precio: 19500, caja: 78000, uCaja: 4 },
-        { bodega: "CATENA ZAPATA", nombre: "Angelica Malbec 2021 (OFERTA) Caja x4u", precio: 20500, caja: 82000, uCaja: 4 },
-        { bodega: "CATENA ZAPATA", nombre: "Malbec Argentino (Caja x4u)", precio: 54000, caja: 216000, uCaja: 4 }, 
-        { bodega: "CATENA ZAPATA", nombre: "Nicolas Catena 2021", precio: 61000, caja: 366000 }, 
-        { bodega: "CATENA ZAPATA", nombre: "Nicolas Catena 2020", precio: 71000, caja: 426000 },
-        { bodega: "CATENA ZAPATA", nombre: "Nicolas Catena 2019", precio: 85000, caja: 510000 },
-        { bodega: "CATENA ZAPATA", nombre: "Nicolas Catena 2018", precio: 94000, caja: 564000 },
-        { bodega: "CATENA ZAPATA", nombre: "Nicola Catena Bonarda (Caja x4u)", precio: 37000, caja: 148000, uCaja: 4 },
-        { bodega: "CATENA ZAPATA", nombre: "Siesta Cabernet Franc 2018", precio: 42500, caja: 255000 },
-        { bodega: "CATENA ZAPATA", nombre: "Birth of Cabernet Sauvignon 2021", precio: 64000, caja: 384000 },
-        { bodega: "CHACRA", nombre: "Barda Pinot Noir / Roka Malbec / Nacha Rosé", precio: 42000, caja: 252000 },
-        { bodega: "CHACRA", nombre: "Chacra 55", precio: 75000, caja: 450000 },
-        { bodega: "EL ENEMIGO", nombre: "Cabernet Franc / Malbec (OFERTA)", precio: 16200, caja: 97200 },
-        { bodega: "EL ENEMIGO", nombre: "Chardonnay / Bonarda", precio: 16800, caja: 100800 },
-        { bodega: "EL ENEMIGO", nombre: "Gran Enemigo (Cepillo / Agrelo / Chacayes / Corte)", precio: 35000, caja: 210000 },
-        { bodega: "EL ENEMIGO", nombre: "Gran Enemigo Gualtallary 2021", precio: 37000, caja: 222000 },
-        { bodega: "COLOMÉ", nombre: "Torrontes / Estate Malbec (OFERTA)", precio: 11800, caja: 70800 },
-        { bodega: "COLOMÉ", nombre: "Colome Autentico", precio: 15300, caja: 91800 },
-        { bodega: "COLOMÉ", nombre: "El Camino Tannat / El Arenal", precio: 23500, caja: 141000 },
-        { bodega: "COLOMÉ", nombre: "Colome 1831 Malbec", precio: 37000, caja: 222000 },
-        { bodega: "CRUZAT", nombre: "Premier (Extra Brut / Rose / Nature)", precio: 11600, caja: 69600 },
-        { bodega: "CRUZAT", nombre: "Joven Naranjo", precio: 13000, caja: 78000 },
-        { bodega: "CRUZAT", nombre: "Cuvee (Extra Brut / Rose / Nature)", precio: 16000, caja: 96000 },
-        { bodega: "CUARTO SURCO", nombre: "Pleno Terroirs (Blend / Cab. Franc / Malbec)", precio: 10000, caja: 60000 },
-        { bodega: "CUARTO SURCO", nombre: "Pleno Appellation Malbec San Pablo", precio: 22000, caja: 132000 },
-        { bodega: "LUCA", nombre: "Malbec", precio: 26500, caja: 159000 },
-        { bodega: "LUCA", nombre: "Luca (G Pinot Noir / Luca Syrah)", precio: 22500, caja: 135000 },
-        { bodega: "LUCA", nombre: "Beso de Dante", precio: 38500, caja: 231000 },
-        { bodega: "LUCA", nombre: "Nico by Luca Malbec (Caja x3u)", precio: 96000, caja: 288000, uCaja: 3 },
-        { bodega: "DURIGUTTI", nombre: "Malbec / Cabernet Franc / Bonarda", precio: 9200, caja: 55200 },
-        { bodega: "DURIGUTTI", nombre: "Durigutti Reserva (Malbec / Bonarda / Cab. Franc)", precio: 17200, caja: 103200 },
-        { bodega: "DURIGUTTI", nombre: "Pie de Monte (Finca Las Jarillas / Finca Ruano / Finca Zarlenga)", precio: 15800, caja: 94800 },
-        { bodega: "DURIGUTTI", nombre: "Durigutti HD Malbec", precio: 12400, caja: 74400 },
-        { bodega: "DURIGUTTI", nombre: "Gran Reserva Malbec / Cab Franc", precio: 21300, caja: 127800 },
-        { bodega: "DURIGUTTI", nombre: "Carmela Reserva Malbec", precio: 16500, caja: 99000 },
-        { bodega: "DURIGUTTI", nombre: "Tinto de Pueblo de las Compuertas", precio: 16000, caja: 96000 },
-        { bodega: "DURIGUTTI", nombre: "Proyecto Las Compuertas (Criolla / Cordisco)", precio: 19500, caja: 117000 },
-        { bodega: "DURIGUTTI", nombre: "Proyecto Las Compuertas Blanco de finca", precio: 32500, caja: 195000 },
-        { bodega: "DURIGUTTI", nombre: "Proyecto Las Compuertas (Charbono Bonarda / Malbec 5 suelos)", precio: 23800, caja: 142800 },
-        { bodega: "DURIGUTTI", nombre: "Proyecto Las Compuertas Cabernet Franc", precio: 30300, caja: 181800 },
-        { bodega: "DURIGUTTI", nombre: "Proyecto Las Compuertas Malbec 1914", precio: 37000, caja: 222000 },
-        { bodega: "ESCORIHUELA GASCÓN", nombre: "Escorihuela (G Malbec / Cab. Sauv.)", precio: 7500, caja: 45000 },
-        { bodega: "ESCORIHUELA GASCÓN", nombre: "Pequeñas Producciones (Malbec / Cab. Sauv.) Caja x4u", precio: 21000, caja: 84000, uCaja: 4 },
-        { bodega: "ESCORIHUELA GASCÓN", nombre: "MEG Miguel Escorihuela Gascon (Caja x4u)", precio: 32000, caja: 128000, uCaja: 4 },
-        { bodega: "ESCORIHUELA GASCÓN", nombre: "DON Malbec (Caja x4u)", precio: 51800, caja: 207200, uCaja: 4 },
-        { bodega: "LUIGI BOSCA", nombre: "La Linda (Malbec / Chardonnay / Red Blend)", precio: 5900, caja: 35400 },
-        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca (Malbec / Cab. Sauv. / Chardonnay / Sauv. Blanc)", precio: 10500, caja: 63000 },
-        { bodega: "LUIGI BOSCA", nombre: "Luigi de Sangre Corte", precio: 11500, caja: 69000 },
-        { bodega: "LUIGI BOSCA", nombre: "Luigi de Sangre Cabernet Franc", precio: 14500, caja: 87000 },
-        { bodega: "LUIGI BOSCA", nombre: "Luigi de Sangre Malbec DOC", precio: 16400, caja: 98400 },
-        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca Los Nobles Malbec doc (Caja x4u)", precio: 62500, caja: 250000, uCaja: 4 },
-        { bodega: "LUIGI BOSCA", nombre: "Luigi bosca de sangre white blend", precio: 18000, caja: 108000 },
-        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca Leon Cabernet Sauvignon (Caja x4u)", precio: 70000, caja: 280000, uCaja: 4 },
-        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca Filos Chardonnay (Caja x4u)", precio: 63000, caja: 252000, uCaja: 4 },
-        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca Apuntes Grenache (Caja x4u)", precio: 26500, caja: 106000, uCaja: 4 },
-        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca Extra Brut", precio: 15900, caja: 95400 },
-        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca Brut Nature", precio: 16000, caja: 96000 },
-        { bodega: "LUIGI BOSCA", nombre: "La Linda Extra Brut (OFERTA)", precio: 7000, caja: 42000 },
-        { bodega: "ROLLAND", nombre: "Mariflor Sauvignon Blanc", precio: 22500, caja: 135000 },
-        { bodega: "ROLLAND", nombre: "Mariflor Malbec (OFERTA)", precio: 15000, caja: 90000 },
-        { bodega: "ROLLAND", nombre: "Mariflor Pinot Noir", precio: 19100, caja: 114600 },
-        { bodega: "ROLLAND", nombre: "Mariflor Cabernet Franc", precio: 29500, caja: 177000 },
-        { bodega: "ROLLAND", nombre: "Clos de los siete (Blend)", precio: 13000, caja: 78000 },
-        { bodega: "PULENTA", nombre: "La Flor (Malbec / Blend / Malbec Rose / Sauv. Blanc)", precio: 9700, caja: 58200 },
-        { bodega: "PULENTA", nombre: "Pulenta Estate (Red Blend / Pinot Noir Tinto / Cabernet Franc / Malbec o Malbec orgánico)", precio: 20500, caja: 123000 },
-        { bodega: "PULENTA", nombre: "Pulenta Estate Sauv. Blanc / Chardonnay", precio: 14000, caja: 84000 },
-        { bodega: "PULENTA", nombre: "Pulenta Estate Rose Sil Vous Plait (OFERTA)", precio: 12500, caja: 75000 },
-        { bodega: "PULENTA", nombre: "Pulenta Gran Corte", precio: 65000, caja: 390000 },
-        { bodega: "PULENTA", nombre: "Pulenta Gran Malbec", precio: 51000, caja: 306000 },
+        { bodega: "ACHAVAL FERRER", nombre: "Malbec / Merlot / Cabernet Franc", precio: 16300, caja: 97800 },
+        { bodega: "ACHAVAL FERRER", nombre: "Quimera Blend", precio: 32250, caja: 193500 },
+        { bodega: "ALMA NEGRA", nombre: "Blanc de Blancs", precio: 23750, caja: 142500 },
+        { bodega: "ALMA NEGRA", nombre: "Tinto", precio: 26000, caja: 156000 },
+        { bodega: "ALMA NEGRA", nombre: "Brut Nature Rose", precio: 26200, caja: 157200 },
+        { bodega: "ALMA NEGRA", nombre: "Orange", precio: 41050, caja: 246300 },
+        { bodega: "ATAMISQUE", nombre: "Atamisque Assemblage", precio: 43050, caja: 258300 },
+        { bodega: "ATAMISQUE", nombre: "Atamisque Malbec", precio: 39600, caja: 237600 },
+        { bodega: "ATAMISQUE", nombre: "Catalpa (Cab. Franc / Pinot / Chardonnay / Malbec)", precio: 14450, caja: 86700 },
+        { bodega: "ATAMISQUE", nombre: "Philippe Caraguel Malbec Terroir Vistalba", precio: 14850, caja: 89100 },
+        { bodega: "ATAMISQUE", nombre: "Philippe Caraguel Extra Brut (Blanco / Rose)", precio: 11600, caja: 69600 },
+        { bodega: "BEMBERG", nombre: "La Linterna Blend Pionero Gualtallary", precio: 112850, caja: 677100 },
+        { bodega: "BEMBERG", nombre: "La Linterna Malbec (Gualtallary 5 / Pedernal 13 / Chañar Punco 73)", precio: 69300, caja: 415800 },
+        { bodega: "BEMBERG", nombre: "La Linterna (Pinot Noir / Chardonnay / Cab. Sauv.)", precio: 69300, caja: 415800 },
+        { bodega: "BRESSIA", nombre: "Monteagrelo (Malbec / Cab. Franc / Cab. Sauv.)", precio: 14150, caja: 84900 },
+        { bodega: "BRESSIA", nombre: "Lagrima Canela", precio: 25200, caja: 151200 },
+        { bodega: "BRESSIA", nombre: "Piel Negra", precio: 30650, caja: 183900 },
+        { bodega: "BRESSIA", nombre: "Profundo (OFERTA)", precio: 24350, caja: 146100 },
+        { bodega: "BRESSIA", nombre: "Conjuro", precio: 51950, caja: 311700 },
+        { bodega: "BRESSIA", nombre: "Ultima Hoja", precio: 98000, caja: 588000 },
+        { bodega: "BRESSIA", nombre: "Royal Brut Nature", precio: 22050, caja: 132300 },
+        { bodega: "CATENA ZAPATA", nombre: "Nicasia Red Blend (Malbec / Cab. Franc / Blanc)", precio: 6500, caja: 39000 },
+        { bodega: "CATENA ZAPATA", nombre: "Nicasia Grand Blend", precio: 8900, caja: 53400 },
+        { bodega: "CATENA ZAPATA", nombre: "Saint Felicien (Malbec / Cab. Franc / Cab. Sauv. / Chardonnay / Cab-Merlot)", precio: 8300, caja: 49800 },
+        { bodega: "CATENA ZAPATA", nombre: "Saint Felicien Rosé (Caja x4u)", precio: 23750, caja: 95000, uCaja: 4 },
+        { bodega: "CATENA ZAPATA", nombre: "DV Garnacha Apelacion-Lunlunta (Caja x4u)", precio: 19300, caja: 77200, uCaja: 4 },
+        { bodega: "CATENA ZAPATA", nombre: "DV Chardonnay-Chardonnay", precio: 15800, caja: 94800 },
+        { bodega: "CATENA ZAPATA", nombre: "DV Cabernet-Malbec (OFERTA)", precio: 10350, caja: 62100 },
+        { bodega: "CATENA ZAPATA", nombre: "DV (Malbec-Malbec / Cabernet-Cabernet)", precio: 15400, caja: 92400 },
+        { bodega: "CATENA ZAPATA", nombre: "DV Pinot-Pinot", precio: 12750, caja: 76500 },
+        { bodega: "CATENA ZAPATA", nombre: "DV L'Esploratore (Malbec Cafayate / Malbec Angulos) Caja x4u", precio: 18800, caja: 75200, uCaja: 4 },
+        { bodega: "CATENA ZAPATA", nombre: "DV Designated Vineyard Malbec Adriana (Caja x4u)", precio: 26700, caja: 106800, uCaja: 4 },
+        { bodega: "CATENA ZAPATA", nombre: "DV Designated Vineyard (Malbec Nicasia / Cab. Sauv. Nicasia) Caja x4u", precio: 24750, caja: 99000, uCaja: 4 },
+        { bodega: "CATENA ZAPATA", nombre: "DV Designated Vineyard (La Piramide Cab. Sauv./ Domingo Cab. Sauv.) Caja x4u", precio: 24750, caja: 99000, uCaja: 4 },
+        { bodega: "CATENA ZAPATA", nombre: "Angelica (Chardonnay / Merlot / Cab. Sauv. / Cab. Franc) Caja x4u", precio: 19300, caja: 77200, uCaja: 4 },
+        { bodega: "CATENA ZAPATA", nombre: "Angelica Malbec 2021 (OFERTA) Caja x4u", precio: 20250, caja: 81000, uCaja: 4 },
+        { bodega: "CATENA ZAPATA", nombre: "Malbec Argentino (OFERTA)", precio: 52000, caja: 312000 }, 
+        { bodega: "CATENA ZAPATA", nombre: "Nicolas Catena 2021", precio: 60350, caja: 362100 }, 
+        { bodega: "CATENA ZAPATA", nombre: "Nicolas Catena 2020", precio: 70250, caja: 421500 },
+        { bodega: "CATENA ZAPATA", nombre: "Nicolas Catena 2019", precio: 84150, caja: 504900 },
+        { bodega: "CATENA ZAPATA", nombre: "Nicolas Catena 2018", precio: 93050, caja: 558300 },
+        { bodega: "CATENA ZAPATA", nombre: "Nicola Catena Bonarda (Caja x4u)", precio: 36600, caja: 146400, uCaja: 4 },
+        { bodega: "CATENA ZAPATA", nombre: "Siesta Cabernet Franc 2018", precio: 42050, caja: 252300 },
+        { bodega: "CATENA ZAPATA", nombre: "Birth of Cabernet Sauvignon 2021", precio: 63350, caja: 380100 },
+        { bodega: "CHACRA", nombre: "Barda Pinot Noir / Roka Malbec / Nacha Rosé", precio: 41550, caja: 249300 },
+        { bodega: "CHACRA", nombre: "Chacra 55", precio: 74250, caja: 445500 },
+        { bodega: "EL ENEMIGO", nombre: "Cabernet Franc / Malbec (OFERTA)", precio: 16000, caja: 96000 },
+        { bodega: "EL ENEMIGO", nombre: "Chardonnay / Bonarda", precio: 16600, caja: 99600 },
+        { bodega: "EL ENEMIGO", nombre: "Gran Enemigo (Cepillo / Agrelo / Chacayes / Corte)", precio: 34650, caja: 207900 },
+        { bodega: "EL ENEMIGO", nombre: "Gran Enemigo Gualtallary 2021", precio: 36600, caja: 219600 },
+        { bodega: "COLOMÉ", nombre: "Torrontes / Estate Malbec (OFERTA)", precio: 11650, caja: 69900 },
+        { bodega: "COLOMÉ", nombre: "Colome Autentico", precio: 15100, caja: 90600 },
+        { bodega: "COLOMÉ", nombre: "El Camino Tannat / El Arenal", precio: 23250, caja: 139500 },
+        { bodega: "COLOMÉ", nombre: "Colome 1831 Malbec", precio: 36600, caja: 219600 },
+        { bodega: "CRUZAT", nombre: "Premier (Extra Brut / Rose / Nature)", precio: 11450, caja: 68700 },
+        { bodega: "CRUZAT", nombre: "Joven Naranjo", precio: 12850, caja: 77100 },
+        { bodega: "CRUZAT", nombre: "Cuvee (Extra Brut / Rose / Nature)", precio: 15800, caja: 94800 },
+        { bodega: "CUARTO SURCO", nombre: "Pleno Terroirs (Blend / Cab. Franc / Malbec)", precio: 9900, caja: 59400 },
+        { bodega: "CUARTO SURCO", nombre: "Pleno Appellation Malbec San Pablo", precio: 21750, caja: 130500 },
+        { bodega: "LUCA", nombre: "Malbec", precio: 26200, caja: 157200 },
+        { bodega: "LUCA", nombre: "Luca (G Pinot Noir / Luca Syrah)", precio: 22250, caja: 133500 },
+        { bodega: "LUCA", nombre: "Beso de Dante", precio: 38100, caja: 228600 },
+        { bodega: "LUCA", nombre: "Nico by Luca Malbec (Caja x3u)", precio: 95000, caja: 285000, uCaja: 3 },
+        { bodega: "DURIGUTTI", nombre: "Malbec / Cabernet Franc / Bonarda", precio: 9100, caja: 54600 },
+        { bodega: "DURIGUTTI", nombre: "Durigutti Reserva (Malbec / Bonarda / Cab. Franc)", precio: 17000, caja: 102000 },
+        { bodega: "DURIGUTTI", nombre: "Pie de Monte (Finca Las Jarillas / Finca Ruano / Finca Zarlenga)", precio: 15600, caja: 93600 },
+        { bodega: "DURIGUTTI", nombre: "Durigutti HD Malbec", precio: 12250, caja: 73500 },
+        { bodega: "DURIGUTTI", nombre: "Gran Reserva Malbec / Cab Franc", precio: 21050, caja: 126300 },
+        { bodega: "DURIGUTTI", nombre: "Carmela Reserva Malbec", precio: 16300, caja: 97800 },
+        { bodega: "DURIGUTTI", nombre: "Tinto de Pueblo de las Compuertas", precio: 15800, caja: 94800 },
+        { bodega: "DURIGUTTI", nombre: "Proyecto Las Compuertas (Criolla / Cordisco)", precio: 19300, caja: 115800 },
+        { bodega: "DURIGUTTI", nombre: "Proyecto Las Compuertas Blanco de finca", precio: 32150, caja: 192900 },
+        { bodega: "DURIGUTTI", nombre: "Proyecto Las Compuertas (Charbono Bonarda / Malbec 5 suelos)", precio: 23550, caja: 141300 },
+        { bodega: "DURIGUTTI", nombre: "Proyecto Las Compuertas Cabernet Franc", precio: 30000, caja: 180000 },
+        { bodega: "DURIGUTTI", nombre: "Proyecto Las Compuertas Malbec 1914", precio: 36600, caja: 219600 },
+        { bodega: "ESCORIHUELA GASCÓN", nombre: "Escorihuela (G Malbec / Cab. Sauv.)", precio: 7400, caja: 44400 },
+        { bodega: "ESCORIHUELA GASCÓN", nombre: "Pequeñas Producciones (Malbec / Cab. Sauv.) Caja x4u", precio: 20750, caja: 83000, uCaja: 4 },
+        { bodega: "ESCORIHUELA GASCÓN", nombre: "MEG Miguel Escorihuela Gascon (Caja x4u)", precio: 31650, caja: 126600, uCaja: 4 },
+        { bodega: "ESCORIHUELA GASCÓN", nombre: "DON Malbec (Caja x4u)", precio: 51250, caja: 205000, uCaja: 4 },
+        { bodega: "LUIGI BOSCA", nombre: "La Linda (Malbec / Chardonnay / Red Blend)", precio: 5800, caja: 34800 },
+        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca (Malbec / Cab. Sauv. / Chardonnay / Sauv. Blanc)", precio: 10350, caja: 62100 },
+        { bodega: "LUIGI BOSCA", nombre: "Luigi de Sangre Corte", precio: 11350, caja: 68100 },
+        { bodega: "LUIGI BOSCA", nombre: "Luigi de Sangre Cabernet Franc", precio: 14350, caja: 86100 },
+        { bodega: "LUIGI BOSCA", nombre: "Luigi de Sangre Malbec DOC", precio: 16200, caja: 97200 },
+        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca Los Nobles Malbec doc (Caja x4u)", precio: 61850, caja: 247400, uCaja: 4 },
+        { bodega: "LUIGI BOSCA", nombre: "Luigi bosca de sangre white blend", precio: 17800, caja: 106800 },
+        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca Leon Cabernet Sauvignon (Caja x4u)", precio: 69300, caja: 277200, uCaja: 4 },
+        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca Filos Chardonnay (Caja x4u)", precio: 62350, caja: 249400, uCaja: 4 },
+        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca Apuntes Grenache (Caja x4u)", precio: 26200, caja: 104800, uCaja: 4 },
+        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca Extra Brut", precio: 15700, caja: 94200 },
+        { bodega: "LUIGI BOSCA", nombre: "Luigi Bosca Brut Nature", precio: 15800, caja: 94800 },
+        { bodega: "LUIGI BOSCA", nombre: "La Linda Extra Brut (OFERTA)", precio: 6900, caja: 41400 },
+        { bodega: "ROLLAND", nombre: "Mariflor Sauvignon Blanc", precio: 22250, caja: 133500 },
+        { bodega: "ROLLAND", nombre: "Mariflor Malbec (OFERTA)", precio: 14850, caja: 89100 },
+        { bodega: "ROLLAND", nombre: "Mariflor Pinot Noir", precio: 18900, caja: 113400 },
+        { bodega: "ROLLAND", nombre: "Mariflor Cabernet Franc", precio: 29200, caja: 175200 },
+        { bodega: "ROLLAND", nombre: "Clos de los siete (Blend)", precio: 12850, caja: 77100 },
+        { bodega: "PULENTA", nombre: "La Flor (Malbec / Blend / Malbec Rose / Sauv. Blanc)", precio: 9600, caja: 57600 },
+        { bodega: "PULENTA", nombre: "Pulenta Estate (Red Blend / Pinot Noir Tinto / Cabernet Franc / Malbec o Malbec orgánico)", precio: 20250, caja: 121500 },
+        { bodega: "PULENTA", nombre: "Pulenta Estate Sauv. Blanc / Chardonnay", precio: 13850, caja: 83100 },
+        { bodega: "PULENTA", nombre: "Pulenta Estate Rose Sil Vous Plait (OFERTA)", precio: 12350, caja: 74100 },
+        { bodega: "PULENTA", nombre: "Pulenta Gran Corte", precio: 64350, caja: 386100 },
+        { bodega: "PULENTA", nombre: "Pulenta Gran Malbec", precio: 50450, caja: 302700 },
         { bodega: "SALENTEIN", nombre: "Reserve (Malbec / Cav. Sauv. / Merlot / Sauv. Blanc / Chardonnay / Rose)", precio: 9700, caja: 58200 },
         { bodega: "SALENTEIN", nombre: "Reserve (Cabernet Franc / Pinot Noir)", precio: 10400, caja: 62400 },
         { bodega: "SALENTEIN", nombre: "Numina (Chardonnay / Malbec)", precio: 11900, caja: 71400 },
@@ -531,31 +534,31 @@
         { bodega: "SALENTEIN", nombre: "Salentein Cuvee Doux dulce", precio: 10500, caja: 63000 },
         { bodega: "SALENTEIN", nombre: "Alyda Brut Nature", precio: 15900, caja: 95400 },
         { bodega: "SALENTEIN", nombre: "Alyda Rose", precio: 16500, caja: 99000 },
-        { bodega: "SUSANA BALBO", nombre: "Signature Malbec", precio: 18000, caja: 108000 },
-        { bodega: "SUSANA BALBO", nombre: "Signature Rose / Signature White Blend", precio: 29000, caja: 174000 },
-        { bodega: "SUSANA BALBO", nombre: "Signature Brioso (OFERTA)", precio: 32000, caja: 192000 },
-        { bodega: "SUSANA BALBO", nombre: "Osadia de Crear Espumante Blanco", precio: 11000, caja: 66000 },
-        { bodega: "RUTINI", nombre: "Encuentro Malbec", precio: 9990, caja: 59940 },
-        { bodega: "RUTINI", nombre: "Rutini Cabernet Sauvignon", precio: 19100, caja: 114600 },
-        { bodega: "RUTINI", nombre: "Colección Rutini Sauvignon Blanc", precio: 13400, caja: 80400 },
-        { bodega: "RUTINI", nombre: "Colección Rutini Chardonnay", precio: 18200, caja: 109200 },
-        { bodega: "RUTINI", nombre: "Colección Rutini Malbec", precio: 23400, caja: 140400 },
-        { bodega: "RUTINI", nombre: "Colección Rutini Merlot", precio: 14600, caja: 87600 },
-        { bodega: "RUTINI", nombre: "Colección Rutini (Cabernet Sauvignon-Malbec / Cabernet Franc-Malbec)", precio: 12300, caja: 73800 },
-        { bodega: "RUTINI", nombre: "Antologia XXXVIII (38) (Caja x4u)", precio: 47800, caja: 191200, uCaja: 4 },
-        { bodega: "RUTINI", nombre: "Antologia XLIX (49) (Caja x4u)", precio: 49100, caja: 196400, uCaja: 4 },
-        { bodega: "RUTINI", nombre: "Apartado Gran Malbec (Caja x4u)", precio: 90000, caja: 360000, uCaja: 4 },
-        { bodega: "RUTINI", nombre: "Rutini Espumoso Brut Nature (Caja x4u)", precio: 39100, caja: 156400, uCaja: 4 },
-        { bodega: "RUTINI", nombre: "Rutini Espumoso Extra Brut (Caja x4u)", precio: 27000, caja: 108000, uCaja: 4 },
-        { bodega: "SOTTANO", nombre: "Judas Malbec", precio: 56500, caja: 339000 },
-        { bodega: "SOTTANO", nombre: "La Piel de Judas", precio: 78000, caja: 468000 },
-        { bodega: "TAPIZ", nombre: "Selección de Barricas Estate Blend ", precio: 28000, caja: 168000 },
-        { bodega: "TAPIZ", nombre: "Black Tears Malbec ", precio: 64600, caja: 387600 },
-        { bodega: "TRUMPETER", nombre: "Varietales (Malbec / Cab. Sauv. / Merlot / Syrah / Cab. Franc / Chardonnay / Sauv. Blanc)", precio: 6900, caja: 41400 },
-        { bodega: "TRUMPETER", nombre: "Trumpeter Reserva (Malbec / Cab. Sauv. / Rose)", precio: 9200, caja: 55200 },
-        { bodega: "VIÑA COBOS", nombre: "Felino Malbec", precio: 19000, caja: 114000 },
-        { bodega: "VIÑA COBOS", nombre: "Cocodrilo Corte", precio: 33000, caja: 198000 },
-        { bodega: "VIÑA COBOS", nombre: "Bramare (Malbec Lujan de Cuyo / Cab. Sauv. Luján de Cuyo / Malbec Valle de Uco)", precio: 42300, caja: 253800 }
+        { bodega: "SUSANA BALBO", nombre: "Signature Malbec", precio: 17800, caja: 106800 },
+        { bodega: "SUSANA BALBO", nombre: "Signature Rose / Signature White Blend", precio: 28700, caja: 172200 },
+        { bodega: "SUSANA BALBO", nombre: "Signature Brioso (OFERTA)", precio: 31650, caja: 189900 },
+        { bodega: "SUSANA BALBO", nombre: "Osadia de Crear Espumante Blanco", precio: 10850, caja: 65100 },
+        { bodega: "RUTINI", nombre: "Encuentro Malbec", precio: 9850, caja: 59100 },
+        { bodega: "RUTINI", nombre: "Rutini Cabernet Sauvignon", precio: 18900, caja: 113400 },
+        { bodega: "RUTINI", nombre: "Colección Rutini Sauvignon Blanc", precio: 13250, caja: 79500 },
+        { bodega: "RUTINI", nombre: "Colección Rutini Chardonnay", precio: 18000, caja: 108000 },
+        { bodega: "RUTINI", nombre: "Colección Rutini Malbec", precio: 23150, caja: 138900 },
+        { bodega: "RUTINI", nombre: "Colección Rutini Merlot", precio: 14450, caja: 86700 },
+        { bodega: "RUTINI", nombre: "Colección Rutini (Cabernet Sauvignon-Malbec / Cabernet Franc-Malbec)", precio: 12150, caja: 72900 },
+        { bodega: "RUTINI", nombre: "Antologia XXXVIII (38) (Caja x4u)", precio: 47300, caja: 189200, uCaja: 4 },
+        { bodega: "RUTINI", nombre: "Antologia XLIX (49) (Caja x4u)", precio: 48600, caja: 194400, uCaja: 4 },
+        { bodega: "RUTINI", nombre: "Apartado Gran Malbec (Caja x4u)", precio: 89100, caja: 356400, uCaja: 4 },
+        { bodega: "RUTINI", nombre: "Rutini Espumoso Brut Nature (Caja x4u)", precio: 38700, caja: 154800, uCaja: 4 },
+        { bodega: "RUTINI", nombre: "Rutini Espumoso Extra Brut (Caja x4u)", precio: 26700, caja: 106800, uCaja: 4 },
+        { bodega: "SOTTANO", nombre: "Judas Malbec", precio: 55900, caja: 335400 },
+        { bodega: "SOTTANO", nombre: "La Piel de Judas", precio: 77200, caja: 463200 },
+        { bodega: "TAPIZ", nombre: "Selección de Barricas Estate Blend ", precio: 27700, caja: 166200 },
+        { bodega: "TAPIZ", nombre: "Black Tears Malbec ", precio: 63950, caja: 383700 },
+        { bodega: "TRUMPETER", nombre: "Varietales (Malbec / Cab. Sauv. / Merlot / Syrah / Cab. Franc / Chardonnay / Sauv. Blanc)", precio: 6800, caja: 40800 },
+        { bodega: "TRUMPETER", nombre: "Trumpeter Reserva (Malbec / Cab. Sauv. / Rose)", precio: 9100, caja: 54600 },
+        { bodega: "VIÑA COBOS", nombre: "Felino Malbec", precio: 18800, caja: 112800 },
+        { bodega: "VIÑA COBOS", nombre: "Cocodrilo Corte", precio: 32650, caja: 195900 },
+        { bodega: "VIÑA COBOS", nombre: "Bramare (Malbec Lujan de Cuyo / Cab. Sauv. Luján de Cuyo / Malbec Valle de Uco)", precio: 41850, caja: 251100 }
     ];
 
     let cart = [];
@@ -746,15 +749,43 @@
         const name = document.getElementById('customerName').value;
         const addr = document.getElementById('customerAddress').value;
         const date = document.getElementById('deliveryDate').value;
+        const obs = document.getElementById('customerObs').value;
+
         if (!name || !addr) { alert("Completa tus datos."); return; }
-        let msg = `*SALES ORDER Nº*\n👤 Cliente: ${name}\n📍 Dirección: ${addr}\n📅 Entrega: ${date}\n-------------------\n Detalle del pedido:\n`;
+        
+        let msg = `*SALES ORDER Nº*\n👤 Cliente: ${name}\n📍 Dirección: ${addr}\n📅 Entrega: ${date}\n`;
+        
+        if (obs && obs.trim() !== "") {
+            msg += `📝 Observaciones: ${obs}\n`;
+        }
+
+        msg += `-------------------\n Detalle del pedido:\n`;
+        
         let total = 0;
+        let totalBotellas = 0;
+
         cart.forEach(i => { 
             total += (i.precio * i.qty); 
-            const cleanName = i.nombre.replace('<br>', ' ').replace('<span class="selected-variant-text">', '').replace('</span>', '');
-            msg += `▪️ (${i.qty}) ${i.bodega} ${cleanName}\n`; 
+            totalBotellas += i.qty;
+            
+            // Simplificación del nombre para WhatsApp
+            let finalName = "";
+            if (i.nombre.includes("(Elegida:")) {
+                const parts = i.nombre.split("(Elegida:");
+                const variant = parts[1].replace(")", "").trim();
+                finalName = `${i.bodega} ${variant}`;
+            } else {
+                const cleanName = i.nombre.replace('<br>', ' ').replace('<span class="selected-variant-text">', '').replace('</span>', '');
+                finalName = `${i.bodega} ${cleanName}`;
+            }
+
+            msg += `▪️ (${i.qty}) ${finalName}\n`; 
         });
-        msg += `-------------------\n💰 *TOTAL: $${Math.round(total).toLocaleString('es-AR')}*`;
+        
+        msg += `-------------------\nTotal de botellas: ${totalBotellas}\n`;
+        msg += `💰 *TOTAL: $${Math.round(total).toLocaleString('es-AR')}*\n`;
+        msg += `-------------------\n👤 Vendedor: Max Bazzana`;
+        
         window.open(`https://wa.me/5491130529102?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
