@@ -358,10 +358,14 @@
 </header>
 
 <div class="rules-banner">
-    ⚠️ <strong>Condiciones de venta:</strong><br>
-    El pedido mínimo es de una caja cerrada, que puede ser de 3, 4 o 6 unidades según el producto.<br>
-    También se permite solicitar cajas mixtas, las cuales deben ser de 6 unidades.<br>
-    Algunos vinos se venden exclusivamente por caja cerrada y no pueden combinarse con otros productos.
+    <div style="display: inline-block; text-align: left;">
+        ⚠️ <strong>Condiciones de venta:</strong>
+        <ul style="margin-top: 5px; margin-bottom: 0; padding-left: 20px;">
+            <li>Pedido mínimo: una caja cerrada (3, 4 o 6 unidades según el producto).</li>
+            <li>Se permiten cajas mixtas únicamente de 6 unidades.</li>
+            <li>Algunos vinos son exclusivos de caja cerrada y no pueden combinarse en mixtas.</li>
+        </ul>
+    </div>
 </div>
 
 <div class="filters">
@@ -608,7 +612,7 @@
             const dayOfWeek = d.getDay();
             const dateKey = `${d.getDate()}/${d.getMonth() + 1}`;
             
-            if(dayOfWeek !== 0 && dayOfWeek !== 6 && !feriados2026.includes(dateKey)) {
+            if((dayOfWeek === 3 || dayOfWeek === 5) && !feriados2026.includes(dateKey)) {
                 const opt = document.createElement('option');
                 const dayName = days[dayOfWeek];
                 const dateStr = `${d.getDate()} ${months[d.getMonth()]}`;
